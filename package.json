@@ -4,6 +4,9 @@
   "private": true,
   "description": "Real-time multiplayer Codenames web app with lobbies, teams, and practice bots",
   "main": "server/index.js",
+  "engines": {
+    "node": ">=18"
+  },
   "scripts": {
     "start": "node server/index.js"
   },
