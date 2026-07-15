@@ -1,0 +1,14 @@
+{
+  "name": "codenames",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Real-time multiplayer Codenames web app with lobbies, teams, and practice bots",
+  "main": "server/index.js",
+  "scripts": {
+    "start": "node server/index.js"
+  },
+  "dependencies": {
+    "express": "^4.19.2",
+    "socket.io": "^4.7.5"
+  }
+}

@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Codenames</title>
+  <meta name="theme-color" content="#efe6d3">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect x='2' y='2' width='28' height='28' rx='6' fill='%23232019'/%3E%3Crect x='6' y='6' width='9' height='9' rx='2' fill='%23bf4433'/%3E%3Crect x='17' y='17' width='9' height='9' rx='2' fill='%233a6a99'/%3E%3Crect x='17' y='6' width='9' height='9' rx='2' fill='%23efe6d3'/%3E%3Crect x='6' y='17' width='9' height='9' rx='2' fill='%23efe6d3'/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,900&family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <symbol id="i-agent" viewBox="0 0 24 24">
+        <path d="M8 7.4V5.6C8 4.2 9.7 3.1 12 3.1s4 1.1 4 2.5v1.8z"/>
+        <rect x="3.6" y="7.4" width="16.8" height="2.1" rx="1.05"/>
+        <circle cx="12" cy="13.4" r="2.7"/>
+        <path d="M12 16.6c-3.7 0-6.2 2-6.2 4.4 0 .3.2.5.5.5h11.4c.3 0 .5-.2.5-.5 0-2.4-2.5-4.4-6.2-4.4z"/>
+      </symbol>
+      <symbol id="i-citizen" viewBox="0 0 24 24">
+        <circle cx="12" cy="8.2" r="3.6"/>
+        <path d="M12 13.2c-4.2 0-7 2.4-7 5.2 0 .4.3.6.6.6h12.8c.3 0 .6-.2.6-.6 0-2.8-2.8-5.2-7-5.2z"/>
+      </symbol>
+      <symbol id="i-skull" viewBox="0 0 24 24">
+        <path d="M12 2.6a7.4 7.4 0 0 0-7.4 7.4c0 2.5 1.3 4.7 3.2 6v2.5c0 .9.7 1.6 1.6 1.6h5.2c.9 0 1.6-.7 1.6-1.6V16a7.36 7.36 0 0 0 3.2-6A7.4 7.4 0 0 0 12 2.6z"/>
+        <circle class="hole" cx="9.2" cy="10.3" r="1.7"/>
+        <circle class="hole" cx="14.8" cy="10.3" r="1.7"/>
+        <rect class="hole" x="11.3" y="14.2" width="1.4" height="3.2" rx="0.7"/>
+      </symbol>
+    </defs>
+  </svg>
+
+  <!-- ============================== HOME ============================== -->
+  <section id="screen-home" class="screen">
+    <div class="home-wrap">
+      <header class="brand">
+        <div class="brand-eyebrow mono">TOP SECRET &middot; EYES ONLY</div>
+        <h1 class="brand-title">Codenames</h1>
+        <p class="brand-sub">two rival spymasters &middot; twenty-five words &middot; one assassin</p>
+      </header>
+
+      <div class="panel home-panel">
+        <label class="field">
+          <span class="field-label">Your codename</span>
+          <input id="name-input" maxlength="18" placeholder="e.g. Firefly" autocomplete="off">
+        </label>
+        <button id="create-btn" class="btn primary big">Create a room</button>
+        <div class="divider"><span>or join one</span></div>
+        <div class="join-row">
+          <input id="code-input" class="code-input mono" maxlength="4" placeholder="CODE" autocomplete="off" spellcheck="false">
+          <button id="join-btn" class="btn big">Join</button>
+        </div>
+      </div>
+
+      <footer class="home-foot">Best with 4+ players &mdash; or add bots and play it solo.</footer>
+    </div>
+  </section>
+
+  <!-- ============================== LOBBY ============================== -->
+  <section id="screen-lobby" class="screen hidden">
+    <div class="lobby-wrap">
+      <header class="lobby-head">
+        <div>
+          <div class="eyebrow mono">BRIEFING ROOM</div>
+          <div class="room-code-row">
+            <span class="room-code mono" id="lobby-code">····</span>
+            <button id="copy-code" class="btn small">Copy code</button>
+            <button id="copy-link" class="btn small">Copy link</button>
+          </div>
+        </div>
+        <button id="lobby-leave" class="btn small ghost">Leave</button>
+      </header>
+
+      <div class="teams-grid">
+        <div class="team-panel red" id="panel-red"></div>
+        <div class="team-panel blue" id="panel-blue"></div>
+      </div>
+
+      <div class="panel tv-panel">
+        <div class="bench-title">Shared board &middot; tablet &amp; TV mode</div>
+        <p class="tv-desc">Playing around one table? Open this page on a tablet or TV, join with the room code, and make that device the shared board — it shows the full-screen grid and everyone guesses on it. Spymasters keep their own phones, and teams don't need separate operatives.</p>
+        <div id="tv-list" class="bench-list"></div>
+        <div id="tv-actions" class="slot-actions"></div>
+      </div>
+
+      <div class="panel bench-panel">
+        <div class="bench-title">Waiting in the lobby</div>
+        <div id="bench-list" class="bench-list"></div>
+      </div>
+
+      <footer class="lobby-foot">
+        <div id="start-hint" class="start-hint"></div>
+        <button id="start-btn" class="btn primary big hidden">Start the game</button>
+      </footer>
+    </div>
+  </section>
+
+  <!-- ============================== GAME ============================== -->
+  <section id="screen-game" class="screen hidden">
+    <div class="game-wrap">
+      <header class="game-head">
+        <div class="game-head-left">
+          <span class="game-code mono" id="game-code">····</span>
+          <button id="game-leave" class="btn tiny ghost">Leave</button>
+        </div>
+        <div class="scoreline">
+          <div class="score red"><span class="score-num" id="score-red">9</span><span class="score-word">red</span></div>
+          <div id="turn-banner" class="turn-banner"></div>
+          <div class="score blue"><span class="score-word">blue</span><span class="score-num" id="score-blue">8</span></div>
+        </div>
+      </header>
+
+      <div class="game-main">
+        <div class="board-col">
+          <div id="board" class="board"></div>
+          <div id="clue-area" class="clue-area"></div>
+        </div>
+        <aside class="side-col">
+          <div class="panel rosters" id="rosters"></div>
+          <div class="panel log-panel">
+            <div class="log-title mono">MISSION LOG</div>
+            <div id="log" class="log mono"></div>
+          </div>
+          <button id="to-lobby" class="btn small ghost hidden">Back to lobby</button>
+        </aside>
+      </div>
+    </div>
+    <div id="game-overlay" class="overlay hidden"></div>
+  </section>
+
+  <div id="toasts"></div>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
