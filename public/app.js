@@ -19,6 +19,7 @@
   };
 
   const nameInput = $('#name-input');
+  const joinNameInput = $('#join-name-input');
   const codeInput = $('#code-input');
   const boardEl = $('#board');
   const clueAreaEl = $('#clue-area');
@@ -30,9 +31,34 @@
   let clueAreaKey = '';
   let overlayDismissed = false;
 
-  nameInput.value = localStorage.getItem('cn_name') || '';
+  nameInput.value = joinNameInput.value = localStorage.getItem('cn_name') || '';
+  // the two tabs each have a codename field — keep them mirrored
+  nameInput.addEventListener('input', () => { joinNameInput.value = nameInput.value; });
+  joinNameInput.addEventListener('input', () => { nameInput.value = joinNameInput.value; });
+
+  function selectTab(which) {
+    const create = which === 'create';
+    $('#tab-create').classList.toggle('active', create);
+    $('#tab-join').classList.toggle('active', !create);
+    $('#tab-create').setAttribute('aria-selected', String(create));
+    $('#tab-join').setAttribute('aria-selected', String(!create));
+    $('#tab-panel-create').classList.toggle('hidden', !create);
+    $('#tab-panel-join').classList.toggle('hidden', create);
+  }
+  $('#tab-create').addEventListener('click', () => {
+    selectTab('create');
+    if (!nameInput.value.trim()) nameInput.focus();
+  });
+  $('#tab-join').addEventListener('click', () => {
+    selectTab('join');
+    (joinNameInput.value.trim() ? codeInput : joinNameInput).focus();
+  });
+
   const urlRoom = new URLSearchParams(location.search).get('room');
-  if (urlRoom) codeInput.value = urlRoom.toUpperCase().slice(0, 4);
+  if (urlRoom) {
+    codeInput.value = urlRoom.toUpperCase().slice(0, 4);
+    selectTab('join');
+  }
 
   // ------------------------------------------------------------------
   // helpers
@@ -133,7 +159,10 @@
   $('#join-btn').addEventListener('click', joinFromInput);
   codeInput.addEventListener('keydown', (e) => { if (e.key === 'Enter') joinFromInput(); });
   nameInput.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter') (codeInput.value.trim() ? joinFromInput : () => $('#create-btn').click())();
+    if (e.key === 'Enter') $('#create-btn').click();
+  });
+  joinNameInput.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') (codeInput.value.trim() ? joinFromInput() : codeInput.focus());
   });
 
   function joinFromInput() {

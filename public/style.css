@@ -204,31 +204,61 @@ input:focus, select:focus { outline: 2px solid var(--blue); outline-offset: 1px;
   font-size: 0.92rem;
 }
 
-.home-panel {
-  padding: 1.6rem;
+.home-panel { padding: 0; overflow: hidden; }
+.field { display: flex; flex-direction: column; gap: 0.35rem; }
+.field-label { font-size: 0.8rem; font-weight: 600; color: var(--ink-soft); }
+
+/* folder-style tabs */
+.tab-bar {
+  display: flex;
+  background: #e7dcc2;
+  border-bottom: 1.5px solid var(--line);
+}
+.tab {
+  flex: 1;
+  position: relative;
+  font-family: var(--sans);
+  font-weight: 600;
+  font-size: 0.95rem;
+  letter-spacing: 0.02em;
+  color: var(--ink-soft);
+  background: transparent;
+  border: none;
+  padding: 0.85rem 0.5rem;
+  cursor: pointer;
+  transition: color 0.15s ease, background 0.15s ease;
+}
+.tab:hover { color: var(--ink); }
+.tab + .tab { border-left: 1.5px solid var(--line); }
+.tab.active {
+  background: var(--card-face);
+  color: var(--ink);
+  box-shadow: inset 0 3px 0 var(--ink);
+}
+.tab.active::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1.5px;
+  height: 1.5px;
+  background: var(--card-face);
+}
+
+.tab-content {
+  padding: 1.4rem 1.6rem 1.5rem;
   display: flex;
   flex-direction: column;
   gap: 1rem;
 }
-.field { display: flex; flex-direction: column; gap: 0.35rem; }
-.field-label { font-size: 0.8rem; font-weight: 600; color: var(--ink-soft); }
-
-.divider {
-  display: flex;
-  align-items: center;
-  gap: 0.8rem;
+.tab-hint {
   color: var(--ink-soft);
-  font-size: 0.8rem;
-}
-.divider::before, .divider::after {
-  content: '';
-  flex: 1;
-  border-top: 1px dashed var(--line);
+  font-size: 0.82rem;
+  text-align: center;
 }
 
-.join-row { display: flex; gap: 0.6rem; }
 .code-input {
-  flex: 1;
+  width: 100%;
   text-transform: uppercase;
   letter-spacing: 0.45em;
   font-size: 1.15rem;

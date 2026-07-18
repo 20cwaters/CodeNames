@@ -80,15 +80,29 @@
       </header>
 
       <div class="panel home-panel">
-        <label class="field">
-          <span class="field-label">Your codename</span>
-          <input id="name-input" maxlength="18" placeholder="e.g. Firefly" autocomplete="off">
-        </label>
-        <button id="create-btn" class="btn primary big">Create a room</button>
-        <div class="divider"><span>or join one</span></div>
-        <div class="join-row">
-          <input id="code-input" class="code-input mono" maxlength="4" placeholder="CODE" autocomplete="off" spellcheck="false">
-          <button id="join-btn" class="btn big">Join</button>
+        <div class="tab-bar" role="tablist">
+          <button id="tab-create" class="tab active" role="tab" aria-selected="true">Create a game</button>
+          <button id="tab-join" class="tab" role="tab" aria-selected="false">Join a game</button>
+        </div>
+        <div id="tab-panel-create" class="tab-content">
+          <label class="field">
+            <span class="field-label">Your codename</span>
+            <input id="name-input" maxlength="18" placeholder="e.g. Firefly" autocomplete="off">
+          </label>
+          <button id="create-btn" class="btn primary big">Create a room</button>
+          <p class="tab-hint">You'll get a 4-letter room code to share with the other players.</p>
+        </div>
+        <div id="tab-panel-join" class="tab-content hidden">
+          <label class="field">
+            <span class="field-label">Your codename</span>
+            <input id="join-name-input" maxlength="18" placeholder="e.g. Firefly" autocomplete="off">
+          </label>
+          <label class="field">
+            <span class="field-label">Room code</span>
+            <input id="code-input" class="code-input mono" maxlength="4" placeholder="ABCD" autocomplete="off" spellcheck="false">
+          </label>
+          <button id="join-btn" class="btn primary big">Join room</button>
+          <p class="tab-hint">Ask the host for their 4-letter code.</p>
         </div>
       </div>
 
